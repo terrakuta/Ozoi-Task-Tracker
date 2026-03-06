@@ -1,0 +1,3 @@
+ALTER TABLE ozoi_tasks DROP CONSTRAINT IF EXISTS fk_ozoi_user;
+
+ALTER TABLE ozoi_tasks DROP COLUMN IF EXISTS user_id;
