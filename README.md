@@ -23,18 +23,38 @@ REST API for task tracking
 
 ## Getting Started
 
+### Local Development
+
 1. Copy `.env.example` to `.env` and fill in your values
-2. Run migrations manually on first launch:
-```powershell
-.\scripts\migrate.ps1 up
-```
-3. Start the server (using [Air](https://github.com/air-verse/air) for hot reload):
+2. Start the server (using [Air](https://github.com/air-verse/air) for hot reload):
 ```
 air
 ```
-> After the first run, migrations are applied automatically on every server start.
+> Migrations are applied automatically on every server start.
 
-> Swagger UI: `http://localhost:8080/swagger/index.html`
+> Swagger UI: `http://localhost:3000/swagger/index.html`
+
+### Docker
+
+1. Copy `.env.example` to `.env.docker` and fill in your values
+2. Run:
+```bash
+docker-compose up --build
+```
+> Migrations are applied automatically on startup.
+
+> Swagger UI: `http://localhost:3000/swagger/index.html`
+
+## Migrations
+
+Manual migration management for local development (requires [golang-migrate CLI](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)):
+```powershell
+.\scripts\migrate.ps1 up          # apply all migrations
+.\scripts\migrate.ps1 down        # roll back 1 migration
+.\scripts\migrate.ps1 down 3      # roll back 3 migrations
+.\scripts\migrate.ps1 create name # create new migration
+.\scripts\migrate.ps1 force 1     # force specific version
+```
 
 ## Endpoints
 
@@ -49,17 +69,9 @@ air
 | GET | /ozoi/:id | ✅ | Get task by ID |
 | PUT | /ozoi/:id | ✅ | Update task |
 | DELETE | /ozoi/:id | ✅ | Delete task |
-```
 
 ## Environment Variables
 
-All configuration is done via environment variables. Copy `.env.example` to `.env` and fill in your values:
-```env
-DATABASE_URL=postgres://user:password@localhost:5432/ozoi
-JWT_SECRET=your_secret
-PORT=8080
-SWAGGER_USER=admin
-SWAGGER_PASSWORD=admin
-```
+All configuration is done via environment variables. See `.env.example` for reference.
 
 > `SWAGGER_USER` and `SWAGGER_PASSWORD` are used for Basic Auth on the `/swagger` route.
